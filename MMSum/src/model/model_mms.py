@@ -65,6 +65,7 @@ def parse_lists(predictions, references, parse_num):
 
 from utils import generate_square_subsequent_mask
 from mms_modeling_mt5 import MMSMT5ForConditionalGeneration as MMST5ForConditionalGeneration
+#from mms_modeling_t5 import MMST5ForConditionalGeneration
 
 IG65M_EM_SIZE = 512
 S3D_EMB_SIZE = 512
@@ -114,6 +115,7 @@ class MultimodalTransformer(pl.LightningModule):
                 use_image_self_attention=self.hparams.use_image_self_attention,
             )
         else:
+            #print('load')
             self.model = MMST5ForConditionalGeneration.from_pretrained(
                 "google/mt5-small",
                 num_video_enc_layers=self.hparams.num_video_enc_layers,
@@ -474,10 +476,18 @@ class MultimodalTransformer(pl.LightningModule):
                     )[0]
                 )
             else:
+                frame_scores = predictions["frame_scores"][ind].cpu().detach().numpy()
+                frame_scores = np.where(np.isnan(frame_scores), 0, frame_scores)
+                # pearson_r_scores.append(
+                #     pearsonr(
+                #         cosine_sim_raw[ind].numpy(),
+                #         predictions["frame_scores"][ind].cpu().detach().numpy(),
+                #     )[0]
+                # )
                 pearson_r_scores.append(
                     pearsonr(
                         cosine_sim_raw[ind].numpy(),
-                        predictions["frame_scores"][ind].cpu().detach().numpy(),
+                        frame_scores,
                     )[0]
                 )
 
