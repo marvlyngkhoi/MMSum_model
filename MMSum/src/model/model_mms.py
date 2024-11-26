@@ -64,7 +64,7 @@ def parse_lists(predictions, references, parse_num):
 
 
 from utils import generate_square_subsequent_mask
-from mms_modeling_t5 import MMST5ForConditionalGeneration
+from mms_modeling_mt5 import MMSMT5ForConditionalGeneration as MMST5ForConditionalGeneration
 
 IG65M_EM_SIZE = 512
 S3D_EMB_SIZE = 512

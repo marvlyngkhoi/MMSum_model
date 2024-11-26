@@ -57,7 +57,7 @@ mms_data = MMSDataModule(
         max_src_len=1536,
         max_tgt_len=256,
         train_batch_size=2,
-        val_batch_size=16,
+        val_batch_size=2,
         num_workers=16,
     )
 )
